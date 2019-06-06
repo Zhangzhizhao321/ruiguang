@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.chat.mapper.CommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dream.chat.entity.Comment">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="project_id" property="projectId"/>
+        <result column="content" property="content"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="max_parent_id" property="maxParentId"/>
+        <result column="is_anonymous" property="isAnonymous"/>
+        <result column="amount" property="amount"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id,project_id, content, parent_id, max_parent_id, is_anonymous, amount, create_time
+    </sql>
+
+    <select id="getCommentList" resultType="com.dream.chat.vo.res.CommentResVo">
+        select c.content,c.create_time,c.is_anonymous,u.user_name,u.head_pic,c.user_id,c.id,c.amount from t_comment c
+        inner join t_user u on c.user_id = u.id
+        where c.project_id = #{projectId}
+        order by create_time desc
+        limit #{current},#{size}
+    </select>
+
+</mapper>

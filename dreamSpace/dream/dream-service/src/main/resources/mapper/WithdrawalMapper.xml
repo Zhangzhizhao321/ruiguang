@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.chat.mapper.WithdrawalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dream.chat.entity.Withdrawal">
+        <id column="id" property="id" />
+        <result column="bn" property="bn" />
+        <result column="user_id" property="userId" />
+        <result column="amount" property="amount" />
+        <result column="arrival_account" property="arrivalAccount" />
+        <result column="status" property="status" />
+        <result column="type" property="type" />
+        <result column="remark" property="remark" />
+        <result column="bank_num" property="bankNum" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, bn, user_id, amount,arrival_account, status, type,create_time, update_time,bank_num,remark
+    </sql>
+
+    <select id="getBsWithdrawList" resultType="com.dream.chat.vo.res.BsWithdrawResVo">
+        select w.remark,w.id,w.bn,w.status,uk.user_name,w.amount,w.arrival_account,uk.bank_name,w.bank_num,w.create_time,w.type from t_withdrawal w
+        inner join t_user_bank uk on w.bank_num = uk.bank_num
+        where 1=1
+        <if test="vo.status >= 0">
+            and w.status = #{vo.status}
+        </if>
+        <if test="vo.startTime != null and vo.startTime != ''">
+            and w.create_time > #{vo.startTime}
+        </if>
+        <if test="vo.endTime != null and vo.endTime != ''">
+            and w.create_time &lt; #{vo.endTime}
+        </if>
+        order by w.create_time desc
+    </select>
+
+</mapper>

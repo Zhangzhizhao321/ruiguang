@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.chat.mapper.ProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dream.chat.entity.Project">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="user_id" property="userId"/>
+        <result column="target_amount" property="targetAmount"/>
+        <result column="content" property="content"/>
+        <result column="index_pic" property="indexPic"/>
+        <result column="is_pass" property="isPass"/>
+        <result column="is_over" property="isOver"/>
+        <result column="publish_flag" property="publishFlag"/>
+        <result column="relation_id" property="relationId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="area" property="area"/>
+        <result column="address_id" property="addressId"/>
+        <result column="sort" property="sort"/>
+        <result column="page_views" property="pageViews"/>
+        <result column="create_time" property="createTime"/>
+        <result column="over_time" property="overTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, user_id, target_amount, content, index_pic, is_pass, is_over, publish_flag, relation_id, category_id, category_name, area,address_id, sort, create_time, over_time, update_time
+    </sql>
+
+    <select id="getProjectList" resultType="com.dream.chat.vo.res.ProjectResVo">
+        select p.id as id,p.title as title ,p.index_pic as indexPic,p.category_name as categoryName,u.head_pic as
+        headPic,u.user_name as userName,p.area as area,up.now_amount as nowAmount,p.target_amount as
+        targetAmount,up.help_count as helpCount,p.relation_id as relationId,p.over_time as overTime,p.create_time as
+        createTime from t_project p
+        inner join t_user_project up on p.id = up.project_id
+        inner join t_user u on u.id = up.user_id
+        where p.is_over = 0 and p.relation_id not in(0)
+        <if test="flag==0">
+            order by p.sort asc  ,up.help_count desc,p.update_time desc
+        </if>
+        <if test="flag==1">
+            order by p.create_time desc
+        </if>
+        limit #{current},#{size}
+    </select>
+
+    <select id="getRecommendProjectList" resultType="com.dream.chat.vo.res.InstitutionProjectResVo">
+       select p.id as id,p.title as title ,p.index_pic as indexPic,p.target_amount as
+        targetAmount,p.over_time as overTime,p.create_time as
+        createTime,i.institution_name as institutionName,p.page_views as lookCount from t_project p
+        inner join t_institution i on p.user_id = i.id
+        where p.is_over = 0 and p.relation_id =0
+        limit #{current},#{size}
+    </select>
+
+    <select id="getProjectListForBs" resultType="com.dream.chat.vo.res.ProjectResVo">
+        select p.sort as sort, p.id as id,p.title as title ,p.index_pic as indexPic,p.category_name as categoryName,u.head_pic as headPic,u.user_name as userName,p.area as area,up.now_amount as nowAmount,p.target_amount as targetAmount,up.help_count as helpCount,p.relation_id as relationId,p.over_time as overTime,p.create_time as createTime,p.is_over as isOver,u.phone_number as phoneNumber,u.id as userId from t_project p
+        inner join t_user_project up on p.id = up.project_id
+        inner join t_user u on u.id = up.user_id
+        where  p.relation_id not in(0)
+        <if test="id != null and id != ''">
+            and p.id = #{id}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and p.create_time > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and p.create_time &lt; #{endTime}
+        </if>
+        <if test="overFlag >= 0">
+            and p.is_over = #{overFlag}
+        </if>
+        <if test="flag==0">
+            order by up.help_count desc
+        </if>
+        <if test="flag==1">
+            order by p.create_time desc
+        </if>
+    </select>
+
+    <select id="getProjectDetail" resultType="com.dream.chat.vo.res.ProjectDetailResVo">
+        select p.id as id,p.title as title ,p.is_over as isOver,up.id as userProjectId,u.id as userId,p.content,u.head_pic as headPic,u.user_name as userName,up.now_amount as nowAmount,p.target_amount as targetAmount,up.help_count as helpCount from t_project p
+        inner join t_user_project up on p.id = up.project_id
+        inner join t_user u on u.id = up.user_id
+        where  p.relation_id not in(0) and p.id = #{id}
+    </select>
+
+    <update id="updateProjectLookCount">
+        update t_project set page_views = page_views + 1 where id = #{id}
+    </update>
+</mapper>

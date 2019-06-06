@@ -1,0 +1,80 @@
+server:
+    port: ${port}
+    #port: 443
+    #ssl:
+        #key-store: classpath:www.pmxiang.com.jks
+        #key-store-password: 123456
+        #keyStoreType: PKCS12
+# ----------------------------------------------------------------------------------------
+
+#resources:
+#    static-locations: file: ${}
+
+# ----------------------------------------------------------------------------------------
+spring:
+    application:
+        name: dream-chat
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: ${jdbc.url}
+        username: ${jdbc.username}
+        password: ${jdbc.password}
+    redis:
+        host: ${redis.host}
+        port: ${redis.port}
+        password: ${redis.password}
+        database: ${redis.database}
+        jedis:
+            pool:
+                max-active: 8
+                max-wait: -1
+                max-idle: 8
+                min-idle: 0
+        timeout: 100000
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 30MB
+            enabled: true
+#    activemq:
+#        broker-url: ${activemq.broker-url}
+#        in-memory: true
+#        pool:
+#            enabled: true
+#            max-connections: 50
+#    jms:
+#        pub-sub-domain: true
+
+
+# ----------------------------------------------------------------------------------------
+#短信通知
+aliyun:
+    sms:
+        access-key-id: LTAIpyU6XEFU9Nqk
+        access-key-secret: Gi6jcDDEHgXhKWgTakBa2dq8P5CnpU
+        #sign-name: smdbl
+        sign-name: 么么乐
+        default-connect-timeout: 1000
+        default-read-timeout: 1000
+        product: Dysmsapi
+        domain: dysmsapi.aliyuncs.com
+
+# ----------------------------------------------------------------------------------------
+
+swagger:
+    enabled: true
+    title: 同店搭讪接口文档
+    version: ${project.version}
+    base-package: ${project.groupId}
+# ----------------------------------------------------------------------------------------
+
+dream:
+    paimai:
+        is_test: ${paimai.isTest}
+
+#-----------------------------------------------------------------------------------------
+mybatis-plus:
+    mapper-locations:  classpath:mapper/*.xml
+
+

@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "sourceType": "com.dream.chat.component.MybatisPlusExConfiguration",
+      "name": "mybatis-plus.mapper-package",
+      "type": "java.lang.String"
+    }
+  ]
+}

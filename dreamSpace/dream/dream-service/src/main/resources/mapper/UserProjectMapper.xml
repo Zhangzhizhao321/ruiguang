@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.chat.mapper.UserProjectMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dream.chat.entity.UserProject">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_age" property="userAge"/>
+        <result column="project_id" property="projectId"/>
+        <result column="target_amount" property="targetAmount"/>
+        <result column="now_amount" property="nowAmount"/>
+        <result column="help_count" property="helpCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_age, project_id,target_amount, now_amount, help_count, create_time,update_time
+    </sql>
+
+    <select id="getMyProject" resultType="com.dream.chat.vo.res.UserProjectListResVo">
+        select p.id,p.index_pic,p.title,p.is_over,p.create_time,p.over_time FROM t_user_project up
+        inner join t_project p on up.project_id = p.id
+        where up.user_id = #{userId}
+        order by create_time DESC
+        limit #{current},#{size}
+    </select>
+
+</mapper>

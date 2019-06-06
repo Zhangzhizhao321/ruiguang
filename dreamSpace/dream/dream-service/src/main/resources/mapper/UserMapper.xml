@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dream.chat.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dream.chat.entity.User">
+        <id column="id" property="id" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="head_pic" property="headPic" />
+        <result column="wx_openid" property="wxOpenid" />
+        <result column="wx_h5_openid" property="wxH5Openid" />
+        <result column="wx_app_openid" property="wxAppOpenid" />
+        <result column="wx_unionId" property="wxUnionid" />
+        <result column="user_name" property="userName" />
+        <result column="sex" property="sex" />
+        <result column="id_card" property="idCard" />
+        <result column="invite_id" property="inviteId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, phone_number, head_pic, wx_openid,wx_h5_openid,wx_app_openid, wx_unionId, user_name, sex, id_card, invite_id, create_time, update_time
+    </sql>
+
+</mapper>

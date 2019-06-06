@@ -1,0 +1,7 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+   com.dream.chat.component.SpringContextHolder,\
+   com.dream.chat.component.MybatisPlusExConfiguration,\
+   com.dream.chat.component.BasePackagesConfiguration,\
+   com.dream.chat.component.RestTemplateConfiguration
+
